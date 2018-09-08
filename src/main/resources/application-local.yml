@@ -2,4 +2,4 @@ spring:
   datasource:
     username: bostongene
     password: bostongene
-    url: jdbc:postgresql://localhost:5432/bostongene
+    url: jdbc:postgresql://localhost:5432/bostongene?stringtype=unspecified
