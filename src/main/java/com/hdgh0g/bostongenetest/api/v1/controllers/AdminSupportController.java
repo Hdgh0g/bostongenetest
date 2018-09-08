@@ -22,8 +22,8 @@ public class AdminSupportController {
         return Collections.emptyList();
     }
 
-    @GetMapping
-    public FullAppealResponse getAppealInfo(UUID uuid) {
+    @GetMapping("/{uuid}")
+    public FullAppealResponse getAppealInfo(@PathVariable UUID uuid) {
         return null;
     }
 

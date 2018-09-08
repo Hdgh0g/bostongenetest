@@ -1,0 +1,9 @@
+spring:
+  main:
+    banner-mode: "off"
+  mvc:
+    favicon:
+      enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: validate

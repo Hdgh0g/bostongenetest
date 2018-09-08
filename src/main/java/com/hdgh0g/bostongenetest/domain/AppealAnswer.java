@@ -8,19 +8,15 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "appeals")
+@Table(name = "appeal_answers")
 @Data
-public class Appeal {
+public class AppealAnswer {
 
     @Id
     private UUID id;
     private String text;
     private String username;
-    @Enumerated(EnumType.STRING)
-    private AppealStatus status;
     private Date creationDateTime;
-    @OneToOne
-    private AppealAnswer answer;
     @OneToOne
     private Translation translation;
 }

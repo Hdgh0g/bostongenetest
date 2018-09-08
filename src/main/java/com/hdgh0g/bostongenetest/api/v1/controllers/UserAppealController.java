@@ -26,8 +26,8 @@ public class UserAppealController {
         return Collections.emptyList();
     }
 
-    @GetMapping
-    public FullAppealResponse getAppealForUser(UUID uuid) {
+    @GetMapping("/{uuid}")
+    public FullAppealResponse getAppealForUser(@PathVariable UUID uuid) {
         return null;
     }
 }
