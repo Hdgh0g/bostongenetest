@@ -10,21 +10,25 @@ import lombok.NoArgsConstructor;
 import java.util.Optional;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ListAdminAppealResponse extends BasicListAppealResponse {
 
-    private String username;
-    private TranslationStatus translationStatus;
+    protected String username;
+    protected TranslationStatus translationStatus;
 
     public static ListAdminAppealResponse fromAppeal(Appeal appeal) {
         ListAdminAppealResponse response = new ListAdminAppealResponse();
+        fillListParams(appeal, response);
+        return response;
+    }
+
+    protected static void fillListParams(Appeal appeal, ListAdminAppealResponse response) {
         response.id = appeal.getId();
         response.translationStatus = getTranslationStatus(appeal);
         response.text = response.translationStatus == TranslationStatus.TRANSLATED
                 ? appeal.getTranslation().getTranslatedText() : appeal.getText();
-        response.username = appeal.getUsername();
         response.status = appeal.getStatus();
-        return response;
+        response.username = appeal.getUsername();
     }
 
     private static TranslationStatus getTranslationStatus(Appeal appeal) {

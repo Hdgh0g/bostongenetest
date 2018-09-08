@@ -35,6 +35,23 @@ paths:
         401:
           schema:
             $ref: '#/definitions/Unauthorized'
+  /appeals/{id}:
+    get:
+      summary: Получить полную информацию по своему обращению по id
+      tags:
+        - Appeal
+      parameters:
+        - $ref: "#/parameters/UUIDPathParam"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/FullUserAppealResponse'
+        401:
+          schema:
+            $ref: '#/definitions/Unauthorized'
+        404:
+          schema:
+            $ref: '#/definitions/NotFound'
   /admin/appeals:
     get:
       summary: Получить все заявки в нужном статусе
@@ -56,32 +73,40 @@ paths:
         403:
           schema:
             $ref: '#/definitions/Forbidden'
-parameters:
-  PageParam:
-    in: query
-    name: page
-    type: integer
-    required: false
-    description: Номер страницы (начиная с 0)
-    default: 0
-  PageSizeParam:
-    in: query
-    name: size
-    type: integer
-    required: false
-    description: Размер страницы
-    default: 20
-  AppealStatus:
-    in: query
-    name: status
+  /admin/appeals/{id}:
+    get:
+      summary: Получить всю информацию по заявке
+      tags:
+        - Admin
+      parameters:
+        - $ref: "#/parameters/UUIDPathParam"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/FullAdminAppealResponse'
+        401:
+          schema:
+            $ref: '#/definitions/Unauthorized'
+        403:
+          schema:
+            $ref: '#/definitions/Forbidden'
+        404:
+          schema:
+            $ref: '#/definitions/NotFound'
+
+definitions:
+  TranslationStatuses:
     type: string
-    required: false
-    default: OPEN
-    description: Статусы в которых нужно вернуть заказы
-    enum:
+    enum: &TRANSLATION_STATUSES
+      - TRANSLATION_NEEDED
+      - TRANSLATED
+      - NOT_DEFINED_ORIGINAL_LANGUAGE
+      - ERROR_IN_TRANSLATION
+  AppealStatuses:
+    type: string
+    enum: &APPEAL_STATUSES
       - OPEN
       - CLOSED
-definitions:
   BasicListAppealResponse:
     type: object
     properties:
@@ -92,6 +117,7 @@ definitions:
       status:
         type: string
         description: Текущий статус заявки
+        enum: *APPEAL_STATUSES
   ListUserAppealResponse:
     allOf:
     - $ref : "#/definitions/BasicListAppealResponse"
@@ -100,25 +126,52 @@ definitions:
         text:
           type: string
           description: Первые 50 символов текста заявки
-  ListAdminAppealResponse:
+  FullUserAppealResponse:
     allOf:
-    - $ref : "#/definitions/BasicListAppealResponse"
+    - $ref: "#/definitions/BasicListAppealResponse"
     - type: object
       properties:
         text:
           type: string
-          description: Первые 50 символов текста заявки переведенные по возможности на английский
+          description: Полный текст заявки
+        answer:
+          type: string
+          description: Ответ админа, по возможности переведенный на язык пользователя
+        answerTranslationStatus:
+          type: string
+          description: Статус переведенности ответа (может отсутствовать, если ответа нет)
+          enum: *TRANSLATION_STATUSES
+  PreListAdminAppealResponse:
+    allOf:
+    - $ref : "#/definitions/BasicListAppealResponse"
+    - type: object
+      properties:
         username:
           type: string
           description: Имя пользователя, оставившего заявку
         translationStatus:
           type: string
           description: Состояние "переведенности" заявки на английский
-          enum:
-            - TRANSLATION_NEEDED
-            - TRANSLATED
-            - NOT_DEFINED_ORIGINAL_LANGUAGE
-            - ERROR_IN_TRANSLATION
+          enum: *TRANSLATION_STATUSES
+  ListAdminAppealResponse:
+    allOf:
+    - $ref : "#/definitions/PreListAdminAppealResponse"
+    - type: object
+      properties:
+        text:
+          type: string
+          description: Первые 50 символов текста заявки, переведенные по возможности на английский
+  FullAdminAppealResponse:
+    allOf:
+    - $ref : "#/definitions/PreListAdminAppealResponse"
+    - type: object
+      properties:
+        text:
+          type: string
+          description: Весь текст заявки, переведенный по возможности на английский
+        answer:
+          type: string
+          description: Текст ответа админа
   Unauthorized:
     type: object
     properties:
@@ -141,3 +194,45 @@ definitions:
         type: integer
         default: 403
         description: Код ошибки
+  NotFound:
+    type: object
+    properties:
+      message:
+        type: string
+        default: NotFound
+        description: Сообщение об ошибке
+      code:
+        type: integer
+        default: 404
+        description: Код ошибки
+
+parameters:
+  PageParam:
+    in: query
+    name: page
+    type: integer
+    required: false
+    description: Номер страницы (начиная с 0)
+    default: 0
+  PageSizeParam:
+    in: query
+    name: size
+    type: integer
+    required: false
+    description: Размер страницы
+    default: 20
+  AppealStatus:
+    in: query
+    name: status
+    type: string
+    required: false
+    default: OPEN
+    description: Статусы, в которых нужно вернуть заказы
+    enum: *APPEAL_STATUSES
+  UUIDPathParam:
+    in: path
+    name: id
+    type: string
+    format: uuid
+    required: true
+    description: id заявки
