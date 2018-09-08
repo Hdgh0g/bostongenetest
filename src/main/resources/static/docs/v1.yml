@@ -35,6 +35,20 @@ paths:
         401:
           schema:
             $ref: '#/definitions/Unauthorized'
+    post:
+      summary: Оставить заявку
+      tags:
+        - Appeal
+      parameters:
+        - $ref: '#/parameters/AppealParam'
+      responses:
+        204:
+          description: Заявка успешно создана
+        400:
+          description: Ошибка формата заявки
+        401:
+          schema:
+            $ref: '#/definitions/Unauthorized'
   /appeals/{id}:
     get:
       summary: Получить полную информацию по своему обращению по id
@@ -93,7 +107,24 @@ paths:
         404:
           schema:
             $ref: '#/definitions/NotFound'
-
+  /admin/appeals/answer:
+    post:
+      summary: Ответить на заявку и закрыть её
+      tags:
+        - Admin
+      parameters:
+        - $ref: '#/parameters/AppealAnswerParam'
+      responses:
+        204:
+          description: Ответ успешно создан
+        400:
+          description: Ошибка формата ответа или к этой заявке уже оставлен ответ
+        401:
+          schema:
+            $ref: '#/definitions/Unauthorized'
+        403:
+          schema:
+            $ref: '#/definitions/Forbidden'
 definitions:
   TranslationStatuses:
     type: string
@@ -236,3 +267,25 @@ parameters:
     format: uuid
     required: true
     description: id заявки
+  AppealParam:
+    in: body
+    name: body
+    schema:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Текст заявки
+  AppealAnswerParam:
+    in: body
+    name: body
+    schema:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Текст ответа
+        appealId:
+          type: string
+          format: uuid
+          description: id заявки, к которой надо оставить ответ
