@@ -5,6 +5,7 @@ import com.hdgh0g.bostongenetest.api.v1.responses.FullAppealResponse;
 import com.hdgh0g.bostongenetest.api.v1.responses.ListAppealResponse;
 import com.hdgh0g.bostongenetest.domain.AppealStatus;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/v1/admin/appeals")
+@RequestMapping(value = "/v1/admin/appeals",  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class AdminSupportController {
 
     @GetMapping
