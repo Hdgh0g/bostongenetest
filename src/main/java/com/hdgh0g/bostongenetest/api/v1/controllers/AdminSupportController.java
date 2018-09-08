@@ -39,10 +39,10 @@ public class AdminSupportController {
                 .orElseThrow(() -> new ApiException(ApiExceptionCode.NOT_FOUND_ADMIN_APPEAL));
     }
 
-    @PostMapping
+    @PostMapping("/answer")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void postAnswerAndClose(@RequestBody AnswerRequest answer,
-                                   String currentUsername) {
-
+                                   String currentUsername) throws ApiException {
+        appealService.addAnswer(answer, currentUsername);
     }
 }
