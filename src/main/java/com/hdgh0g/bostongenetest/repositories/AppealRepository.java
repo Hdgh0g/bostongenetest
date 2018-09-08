@@ -18,7 +18,7 @@ public interface AppealRepository extends CrudRepository<Appeal, UUID> {
 
     Optional<Appeal> findOneByUsernameAndId(String username, UUID id);
 
-    List<Appeal> findAllByStatus(AppealStatus status, Pageable pageable);
+    List<Appeal> findAllByStatusIn(List<AppealStatus> status, Pageable pageable);
 
     Optional<Appeal> findOneById(UUID id);
 

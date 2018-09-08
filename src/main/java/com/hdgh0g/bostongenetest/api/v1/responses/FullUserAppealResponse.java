@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class FullAppealResponse {
+public class FullUserAppealResponse {
 
     private UUID id;
     private String text;
@@ -18,8 +18,8 @@ public class FullAppealResponse {
     private String answer;
     private TranslationStatus answerTranslationStatus;
 
-    public static FullAppealResponse forUser(Appeal appeal) {
-        FullAppealResponse response = new FullAppealResponse();
+    public static FullUserAppealResponse fromAppeal(Appeal appeal) {
+        FullUserAppealResponse response = new FullUserAppealResponse();
         response.id = appeal.getId();
         response.text = appeal.getText();
         response.status = appeal.getStatus();
