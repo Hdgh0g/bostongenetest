@@ -11,6 +11,7 @@ import java.util.UUID;
 public class Translation {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String sourceLanguage;
     private String targetLanguage;

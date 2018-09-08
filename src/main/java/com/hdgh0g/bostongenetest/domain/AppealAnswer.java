@@ -13,9 +13,11 @@ import java.util.UUID;
 public class AppealAnswer {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String text;
     private String username;
+    @Column(insertable = false)
     private Date creationDateTime;
     @OneToOne
     private Translation translation;

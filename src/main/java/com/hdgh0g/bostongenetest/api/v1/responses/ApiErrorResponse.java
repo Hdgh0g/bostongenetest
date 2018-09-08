@@ -1,9 +1,11 @@
 package com.hdgh0g.bostongenetest.api.v1.responses;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
+@AllArgsConstructor
 public class ApiErrorResponse {
 
     private final String message;

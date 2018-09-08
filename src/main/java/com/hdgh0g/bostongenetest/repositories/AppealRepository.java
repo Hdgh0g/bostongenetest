@@ -1,0 +1,18 @@
+package com.hdgh0g.bostongenetest.repositories;
+
+import com.hdgh0g.bostongenetest.domain.Appeal;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Repository
+public interface AppealRepository extends CrudRepository<Appeal, UUID> {
+
+    List<Appeal> findAllByUsername(String username, Pageable pageable);
+
+    Optional<Appeal> findOneByUsernameAndId(String username, UUID id);
+}
