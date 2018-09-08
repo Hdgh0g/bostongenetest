@@ -1,0 +1,10 @@
+swagger: "2.0"
+info:
+  description: "Документация к сервису принятия и обработки обращений пользователя"
+  title: "BostonGene Test Task"
+basePath: "/v1"
+tags:
+- name: "Appeal"
+  description: "Пользовательское апи по оставлению обращений и их просмотру"
+- name: "Admin"
+  description: "Апи для админов"
