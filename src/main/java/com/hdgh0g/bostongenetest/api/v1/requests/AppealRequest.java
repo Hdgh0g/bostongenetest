@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 public class AppealRequest {
 
     @NotNull
-    @Size(min=10, max=500)
+    @Size(min = 10, max = 500)
     private String text;
 
 }

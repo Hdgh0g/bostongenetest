@@ -20,7 +20,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/v1/appeals",  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/v1/appeals", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @RequiredArgsConstructor
 public class UserAppealController {
 
