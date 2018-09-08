@@ -1,13 +1,10 @@
 package com.hdgh0g.bostongenetest.repositories;
 
 import com.hdgh0g.bostongenetest.domain.Appeal;
-import com.hdgh0g.bostongenetest.domain.AppealAnswer;
 import com.hdgh0g.bostongenetest.domain.AppealStatus;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,4 +23,7 @@ public interface AppealRepository extends CrudRepository<Appeal, UUID> {
     Optional<Appeal> findOneById(UUID id);
 
     Optional<Appeal> findOneByIdAndStatus(UUID id, AppealStatus status);
+
+    @Query("select a from Appeal a where a.translation is null")
+    List<Appeal> findAllWhereTranslationIsNull();
 }
