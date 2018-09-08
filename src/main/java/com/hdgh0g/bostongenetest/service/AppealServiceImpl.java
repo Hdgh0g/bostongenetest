@@ -25,7 +25,6 @@ import java.util.UUID;
 public class AppealServiceImpl implements AppealService {
 
     private final AppealRepository appealRepository;
-    private final AppealAnswerService appealAnswerService;
 
     @Override
     public void createAppeal(AppealRequest appealRequest, String username) {
@@ -57,14 +56,14 @@ public class AppealServiceImpl implements AppealService {
     }
 
     @Override
-    @Transactional
     public void addAnswer(AnswerRequest answer, String username) throws ApiException {
-        AppealAnswer appealAnswer = appealAnswerService.createAnswer(AppealAnswer.fromRequest(answer, username));
-        int updatedCount = appealRepository.setAnswerByAppealId(answer.getAppealId(), appealAnswer);
-        if (updatedCount == 0) {
-            appealAnswerService.removeAnswerById(appealAnswer.getId());
-            throw new ApiException(ApiExceptionCode.ALREADY_ANSWERED);
-        }
+        appealRepository.findOneByIdAndStatus(answer.getAppealId(), AppealStatus.OPEN)
+                .map(appeal -> {
+                    appeal.setStatus(AppealStatus.CLOSED);
+                    appeal.setAnswer(AppealAnswer.fromRequest(answer, username));
+                    return appealRepository.save(appeal);
+                })
+                .orElseThrow(() -> new ApiException(ApiExceptionCode.ALREADY_ANSWERED));
     }
 
     private Pageable addSortToPageable(Pageable pageable) {

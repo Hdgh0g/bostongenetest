@@ -21,7 +21,7 @@ public class Appeal {
     private AppealStatus status;
     @Column(insertable = false)
     private Date creationDateTime;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private AppealAnswer answer;
     @OneToOne
     private Translation translation;

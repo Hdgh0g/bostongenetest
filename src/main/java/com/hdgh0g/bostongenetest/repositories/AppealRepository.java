@@ -25,12 +25,5 @@ public interface AppealRepository extends CrudRepository<Appeal, UUID> {
 
     Optional<Appeal> findOneById(UUID id);
 
-    @Modifying
-    @Query("update Appeal a " +
-            "set answer = :answer, " +
-            "status = 'CLOSED' " +
-            "where a.id = :id " +
-            "and a.answer = null")
-    int setAnswerByAppealId(@Param("id") UUID appealId,
-                             @Param("answer") AppealAnswer answer);
+    Optional<Appeal> findOneByIdAndStatus(UUID id, AppealStatus status);
 }
