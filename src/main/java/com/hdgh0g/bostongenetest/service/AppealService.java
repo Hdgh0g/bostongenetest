@@ -2,6 +2,7 @@ package com.hdgh0g.bostongenetest.service;
 
 import com.hdgh0g.bostongenetest.api.v1.requests.AppealRequest;
 import com.hdgh0g.bostongenetest.domain.Appeal;
+import com.hdgh0g.bostongenetest.domain.AppealStatus;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -15,4 +16,8 @@ public interface AppealService {
     List<Appeal> getAppealsByUsername(String currentUsername, Pageable pageable);
 
     Optional<Appeal> findAppealByUsernameAndId(String currentUsername, UUID uuid);
+
+    List<Appeal> getAllAppealsByStatus(AppealStatus status, Pageable pageable);
+
+    Optional<Appeal> findAppealById(UUID uuid);
 }
