@@ -11,7 +11,9 @@ import java.util.UUID;
 @Repository
 public interface AppealAnswerRepository extends CrudRepository<AppealAnswer, UUID> {
 
-    @Query("select aa from AppealAnswer aa where aa.translation is null")
+    @Query("select aa from AppealAnswer aa " +
+            "where aa.translation is null " +
+            "and aa.appeal.translation is not null")
     List<AppealAnswer> findAllWhereTranslationIsNull();
 
 }

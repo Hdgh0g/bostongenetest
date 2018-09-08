@@ -1,4 +1,4 @@
-package com.hdgh0g.bostongenetest.service;
+package com.hdgh0g.bostongenetest.service.translation;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Primary
@@ -33,6 +34,9 @@ public class HystrixSafeTranslationService implements TranslationService {
             commandProperties = @HystrixProperty(name = TIMEOUT_PROPERTY, value = TIMEOUT)
     )
     public Optional<String> translateText(String text, String sourceLanguage, String targetLanguage) {
+        if (Objects.equals(sourceLanguage, targetLanguage)) {
+            return Optional.of(text);
+        }
         return translationService.translateText(text, sourceLanguage, targetLanguage);
     }
 

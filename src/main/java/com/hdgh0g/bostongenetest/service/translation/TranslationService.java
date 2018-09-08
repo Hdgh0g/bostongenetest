@@ -1,4 +1,4 @@
-package com.hdgh0g.bostongenetest.service;
+package com.hdgh0g.bostongenetest.service.translation;
 
 import java.util.Optional;
 

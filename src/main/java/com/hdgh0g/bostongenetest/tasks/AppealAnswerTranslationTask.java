@@ -4,7 +4,7 @@ import com.hdgh0g.bostongenetest.domain.Appeal;
 import com.hdgh0g.bostongenetest.domain.AppealAnswer;
 import com.hdgh0g.bostongenetest.domain.Translation;
 import com.hdgh0g.bostongenetest.repositories.AppealAnswerRepository;
-import com.hdgh0g.bostongenetest.service.TranslationService;
+import com.hdgh0g.bostongenetest.service.translation.TranslationService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,6 +43,7 @@ public class AppealAnswerTranslationTask extends AbstractTranslationTask<AppealA
 
     @Override
     protected void saveTranslation(AppealAnswer entity, Translation translation) {
+        entity.setTranslation(translation);
         appealAnswerRepository.save(entity);
     }
 }

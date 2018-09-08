@@ -3,7 +3,7 @@ package com.hdgh0g.bostongenetest.tasks;
 import com.hdgh0g.bostongenetest.domain.Appeal;
 import com.hdgh0g.bostongenetest.domain.Translation;
 import com.hdgh0g.bostongenetest.repositories.AppealRepository;
-import com.hdgh0g.bostongenetest.service.TranslationService;
+import com.hdgh0g.bostongenetest.service.translation.TranslationService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
