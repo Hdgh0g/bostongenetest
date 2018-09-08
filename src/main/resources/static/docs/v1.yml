@@ -8,3 +8,136 @@ tags:
   description: "Пользовательское апи по оставлению обращений и их просмотру"
 - name: "Admin"
   description: "Апи для админов"
+securityDefinitions:
+  Basic Http Auth:
+    type: basic
+security:
+- Basic Http Auth: []
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /appeals:
+    get:
+      summary: Получить все обращения текущего пользователя
+      tags:
+        - Appeal
+      parameters:
+        - $ref: "#/parameters/PageParam"
+        - $ref: "#/parameters/PageSizeParam"
+      responses:
+        200:
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ListUserAppealResponse"
+        401:
+          schema:
+            $ref: '#/definitions/Unauthorized'
+  /admin/appeals:
+    get:
+      summary: Получить все заявки в нужном статусе
+      tags:
+        - Admin
+      parameters:
+        - $ref: "#/parameters/PageParam"
+        - $ref: "#/parameters/PageSizeParam"
+        - $ref: "#/parameters/AppealStatus"
+      responses:
+        200:
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ListAdminAppealResponse"
+        401:
+          schema:
+            $ref: '#/definitions/Unauthorized'
+        403:
+          schema:
+            $ref: '#/definitions/Forbidden'
+parameters:
+  PageParam:
+    in: query
+    name: page
+    type: integer
+    required: false
+    description: Номер страницы (начиная с 0)
+    default: 0
+  PageSizeParam:
+    in: query
+    name: size
+    type: integer
+    required: false
+    description: Размер страницы
+    default: 20
+  AppealStatus:
+    in: query
+    name: status
+    type: string
+    required: false
+    default: OPEN
+    description: Статусы в которых нужно вернуть заказы
+    enum:
+      - OPEN
+      - CLOSED
+definitions:
+  BasicListAppealResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: id заявки
+      status:
+        type: string
+        description: Текущий статус заявки
+  ListUserAppealResponse:
+    allOf:
+    - $ref : "#/definitions/BasicListAppealResponse"
+    - type: object
+      properties:
+        text:
+          type: string
+          description: Первые 50 символов текста заявки
+  ListAdminAppealResponse:
+    allOf:
+    - $ref : "#/definitions/BasicListAppealResponse"
+    - type: object
+      properties:
+        text:
+          type: string
+          description: Первые 50 символов текста заявки переведенные по возможности на английский
+        username:
+          type: string
+          description: Имя пользователя, оставившего заявку
+        translationStatus:
+          type: string
+          description: Состояние "переведенности" заявки на английский
+          enum:
+            - TRANSLATION_NEEDED
+            - TRANSLATED
+            - NOT_DEFINED_ORIGINAL_LANGUAGE
+            - ERROR_IN_TRANSLATION
+  Unauthorized:
+    type: object
+    properties:
+      message:
+        type: string
+        default: Unauthorized
+        description: Сообщение об ошибке
+      code:
+        type: integer
+        default: 401
+        description: Код ошибки
+  Forbidden:
+    type: object
+    properties:
+      message:
+        type: string
+        default: Forbidden
+        description: Сообщение об ошибке
+      code:
+        type: integer
+        default: 403
+        description: Код ошибки
