@@ -23,7 +23,7 @@ public class Appeal {
     private Date creationDateTime;
     @OneToOne(cascade = CascadeType.ALL)
     private AppealAnswer answer;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Translation translation;
 
     public static Appeal fromRequest(AppealRequest appealRequest) {

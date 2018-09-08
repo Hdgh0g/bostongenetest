@@ -19,7 +19,7 @@ public interface AppealService {
 
     Optional<Appeal> findAppealByUsernameAndId(String username, UUID uuid);
 
-    List<Appeal> getAllAppealsByStatus(AppealStatus status, Pageable pageable);
+    List<Appeal> getAllAppealsByStatus(List<AppealStatus> status, Pageable pageable);
 
     Optional<Appeal> findAppealById(UUID uuid);
 

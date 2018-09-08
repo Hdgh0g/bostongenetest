@@ -13,8 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,9 +43,9 @@ public class AppealServiceImpl implements AppealService {
     }
 
     @Override
-    public List<Appeal> getAllAppealsByStatus(AppealStatus status, Pageable pageable) {
+    public List<Appeal> getAllAppealsByStatus(List<AppealStatus> status, Pageable pageable) {
         pageable = addSortToPageable(pageable);
-        return appealRepository.findAllByStatus(status, pageable);
+        return appealRepository.findAllByStatusIn(status, pageable);
     }
 
     @Override

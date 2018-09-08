@@ -7,3 +7,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+
+translation:
+  yandex:
+    key: XXX
+    url: https://translate.yandex.net/api/v1.5/tr.json/
+    detect: ${translation.yandex.url}detect?key=${translation.yandex.key}
+    translate: ${translation.yandex.url}translate?key=${translation.yandex.key}

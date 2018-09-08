@@ -1,8 +1,8 @@
 package com.hdgh0g.bostongenetest.api.v1.controllers;
 
 import com.hdgh0g.bostongenetest.api.v1.requests.AnswerRequest;
-import com.hdgh0g.bostongenetest.api.v1.responses.FullAppealResponse;
-import com.hdgh0g.bostongenetest.api.v1.responses.ListAppealResponse;
+import com.hdgh0g.bostongenetest.api.v1.responses.FullAdminAppealResponse;
+import com.hdgh0g.bostongenetest.api.v1.responses.ListAdminAppealResponse;
 import com.hdgh0g.bostongenetest.domain.Appeal;
 import com.hdgh0g.bostongenetest.domain.AppealStatus;
 import com.hdgh0g.bostongenetest.exceptions.ApiException;
@@ -20,22 +20,22 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/v1/admin/appeals",  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/v1/admin/appeals", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class AdminSupportController {
 
     private final AppealService appealService;
 
     @GetMapping
-    public List<ListAppealResponse> getAppealList(@RequestParam(defaultValue = "OPEN") AppealStatus status,
-                                                  Pageable pageable) {
+    public List<ListAdminAppealResponse> getAppealList(@RequestParam(defaultValue = "OPEN") List<AppealStatus> status,
+                                                       Pageable pageable) {
         List<Appeal> appeals = appealService.getAllAppealsByStatus(status, pageable);
-        return appeals.stream().map(ListAppealResponse::forUser).collect(Collectors.toList());
+        return appeals.stream().map(ListAdminAppealResponse::fromAppeal).collect(Collectors.toList());
     }
 
     @GetMapping("/{uuid}")
-    public FullAppealResponse getAppealInfo(@PathVariable UUID uuid) throws ApiException {
+    public FullAdminAppealResponse getAppealInfo(@PathVariable UUID uuid) throws ApiException {
         return appealService.findAppealById(uuid)
-                .map(FullAppealResponse::forUser)
+                .map(FullAdminAppealResponse::fromAppeal)
                 .orElseThrow(() -> new ApiException(ApiExceptionCode.NOT_FOUND_ADMIN_APPEAL));
     }
 

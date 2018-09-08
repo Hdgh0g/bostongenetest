@@ -1,8 +1,8 @@
 package com.hdgh0g.bostongenetest.api.v1.controllers;
 
 import com.hdgh0g.bostongenetest.api.v1.requests.AppealRequest;
-import com.hdgh0g.bostongenetest.api.v1.responses.FullAppealResponse;
-import com.hdgh0g.bostongenetest.api.v1.responses.ListAppealResponse;
+import com.hdgh0g.bostongenetest.api.v1.responses.FullUserAppealResponse;
+import com.hdgh0g.bostongenetest.api.v1.responses.ListUserAppealResponse;
 import com.hdgh0g.bostongenetest.domain.Appeal;
 import com.hdgh0g.bostongenetest.exceptions.ApiException;
 import com.hdgh0g.bostongenetest.exceptions.ApiExceptionCode;
@@ -34,17 +34,17 @@ public class UserAppealController {
     }
 
     @GetMapping
-    public List<ListAppealResponse> getCurrentUserAppeals(Pageable pageable,
-                                                          String currentUsername) {
+    public List<ListUserAppealResponse> getCurrentUserAppeals(Pageable pageable,
+                                                              String currentUsername) {
         List<Appeal> currentUserAppeals = appealService.getAppealsByUsername(currentUsername, pageable);
-        return currentUserAppeals.stream().map(ListAppealResponse::forUser).collect(Collectors.toList());
+        return currentUserAppeals.stream().map(ListUserAppealResponse::fromAppeal).collect(Collectors.toList());
     }
 
     @GetMapping("/{uuid}")
-    public FullAppealResponse getAppealForUser(@PathVariable UUID uuid,
-                                               String currentUsername) throws ApiException {
+    public FullUserAppealResponse getAppealForUser(@PathVariable UUID uuid,
+                                                   String currentUsername) throws ApiException {
         Optional<Appeal> appeal = appealService.findAppealByUsernameAndId(currentUsername, uuid);
-        return appeal.map(FullAppealResponse::forUser)
+        return appeal.map(FullUserAppealResponse::fromAppeal)
                 .orElseThrow(() -> new ApiException(ApiExceptionCode.NOT_FOUND_USER_APPEAL));
     }
 }
