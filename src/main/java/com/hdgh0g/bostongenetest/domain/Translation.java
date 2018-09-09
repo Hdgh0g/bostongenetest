@@ -1,6 +1,7 @@
 package com.hdgh0g.bostongenetest.domain;
 
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -13,10 +14,15 @@ public class Translation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
     private String sourceLanguage;
+
     private String targetLanguage;
+
     @Enumerated(EnumType.STRING)
+    @Type(type = "com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType")
     private TranslationStatus status;
+
     private String translatedText;
 
     public Translation(String source, String target, String text) {
