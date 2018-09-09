@@ -87,7 +87,7 @@ public class AppealRepositoryTest {
         testEntityManager.persist(closedStatusAppeal);
     }
 
-    static Appeal testAppeal() {
+    public static Appeal testAppeal() {
         Appeal appeal = new Appeal();
         appeal.setText(RandomStringUtils.randomAlphabetic(500));
         appeal.setUsername(RandomStringUtils.randomAlphabetic(30));
@@ -95,7 +95,7 @@ public class AppealRepositoryTest {
         return appeal;
     }
 
-    static Translation testTranslation() {
+    public static Translation testTranslation() {
         return new Translation(
                 RandomStringUtils.randomAlphabetic(2),
                 RandomStringUtils.randomAlphabetic(2),

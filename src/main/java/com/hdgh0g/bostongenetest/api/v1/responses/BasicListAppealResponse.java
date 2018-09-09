@@ -12,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class BasicListAppealResponse {
 
-    protected static final int PREVIEW_TEXT_LIMIT = 50;
+    public static final int PREVIEW_TEXT_LIMIT = 50;
 
     protected UUID id;
     protected String text;

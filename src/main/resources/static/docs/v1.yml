@@ -22,10 +22,10 @@ paths:
     get:
       summary: Получить все обращения текущего пользователя
       tags:
-        - Appeal
+      - Appeal
       parameters:
-        - $ref: "#/parameters/PageParam"
-        - $ref: "#/parameters/PageSizeParam"
+      - $ref: "#/parameters/PageParam"
+      - $ref: "#/parameters/PageSizeParam"
       responses:
         200:
           schema:
@@ -38,9 +38,9 @@ paths:
     post:
       summary: Оставить заявку
       tags:
-        - Appeal
+      - Appeal
       parameters:
-        - $ref: '#/parameters/AppealParam'
+      - $ref: '#/parameters/AppealParam'
       responses:
         204:
           description: Заявка успешно создана
@@ -53,9 +53,9 @@ paths:
     get:
       summary: Получить полную информацию по своему обращению по id
       tags:
-        - Appeal
+      - Appeal
       parameters:
-        - $ref: "#/parameters/UUIDPathParam"
+      - $ref: "#/parameters/UUIDPathParam"
       responses:
         200:
           schema:
@@ -70,11 +70,11 @@ paths:
     get:
       summary: Получить все заявки в нужном статусе
       tags:
-        - Admin
+      - Admin
       parameters:
-        - $ref: "#/parameters/PageParam"
-        - $ref: "#/parameters/PageSizeParam"
-        - $ref: "#/parameters/AppealStatus"
+      - $ref: "#/parameters/PageParam"
+      - $ref: "#/parameters/PageSizeParam"
+      - $ref: "#/parameters/AppealStatus"
       responses:
         200:
           schema:
@@ -91,9 +91,9 @@ paths:
     get:
       summary: Получить всю информацию по заявке
       tags:
-        - Admin
+      - Admin
       parameters:
-        - $ref: "#/parameters/UUIDPathParam"
+      - $ref: "#/parameters/UUIDPathParam"
       responses:
         200:
           schema:
@@ -111,9 +111,9 @@ paths:
     post:
       summary: Ответить на заявку и закрыть её
       tags:
-        - Admin
+      - Admin
       parameters:
-        - $ref: '#/parameters/AppealAnswerParam'
+      - $ref: '#/parameters/AppealAnswerParam'
       responses:
         204:
           description: Ответ успешно создан
@@ -129,15 +129,15 @@ definitions:
   TranslationStatuses:
     type: string
     enum: &TRANSLATION_STATUSES
-      - TRANSLATION_NEEDED
-      - TRANSLATED
-      - NOT_DEFINED_ORIGINAL_LANGUAGE
-      - ERROR_IN_TRANSLATION
+    - TRANSLATION_NEEDED
+    - TRANSLATED
+    - NOT_DEFINED_ORIGINAL_LANGUAGE
+    - ERROR_IN_TRANSLATION
   AppealStatuses:
     type: string
     enum: &APPEAL_STATUSES
-      - OPEN
-      - CLOSED
+    - OPEN
+    - CLOSED
   BasicListAppealResponse:
     type: object
     properties:
@@ -151,7 +151,7 @@ definitions:
         enum: *APPEAL_STATUSES
   ListUserAppealResponse:
     allOf:
-    - $ref : "#/definitions/BasicListAppealResponse"
+    - $ref: "#/definitions/BasicListAppealResponse"
     - type: object
       properties:
         text:
@@ -174,7 +174,7 @@ definitions:
           enum: *TRANSLATION_STATUSES
   PreListAdminAppealResponse:
     allOf:
-    - $ref : "#/definitions/BasicListAppealResponse"
+    - $ref: "#/definitions/BasicListAppealResponse"
     - type: object
       properties:
         username:
@@ -186,7 +186,7 @@ definitions:
           enum: *TRANSLATION_STATUSES
   ListAdminAppealResponse:
     allOf:
-    - $ref : "#/definitions/PreListAdminAppealResponse"
+    - $ref: "#/definitions/PreListAdminAppealResponse"
     - type: object
       properties:
         text:
@@ -194,7 +194,7 @@ definitions:
           description: Первые 50 символов текста заявки, переведенные по возможности на английский
   FullAdminAppealResponse:
     allOf:
-    - $ref : "#/definitions/PreListAdminAppealResponse"
+    - $ref: "#/definitions/PreListAdminAppealResponse"
     - type: object
       properties:
         text:

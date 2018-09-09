@@ -2,7 +2,6 @@ package com.hdgh0g.bostongenetest.repositories;
 
 import com.hdgh0g.bostongenetest.domain.Appeal;
 import com.hdgh0g.bostongenetest.domain.AppealAnswer;
-import com.hdgh0g.bostongenetest.domain.AppealStatus;
 import com.hdgh0g.bostongenetest.domain.Translation;
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
 import org.apache.commons.lang.RandomStringUtils;
