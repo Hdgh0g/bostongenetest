@@ -2,6 +2,7 @@ package com.hdgh0g.bostongenetest.domain;
 
 import com.hdgh0g.bostongenetest.api.v1.requests.AppealRequest;
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,14 +16,21 @@ public class Appeal {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
     private String text;
+
     private String username;
+
     @Enumerated(EnumType.STRING)
+    @Type(type = "com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType")
     private AppealStatus status;
+
     @Column(insertable = false)
     private Date creationDateTime;
+
     @OneToOne(cascade = CascadeType.ALL)
     private AppealAnswer answer;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Translation translation;
 

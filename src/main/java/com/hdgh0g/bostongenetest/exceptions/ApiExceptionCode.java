@@ -2,7 +2,7 @@ package com.hdgh0g.bostongenetest.exceptions;
 
 import lombok.Getter;
 
-public enum  ApiExceptionCode {
+public enum ApiExceptionCode {
 
     NOT_FOUND_USER_APPEAL(404),
     NOT_FOUND_ADMIN_APPEAL(404),

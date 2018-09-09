@@ -11,10 +11,10 @@ import java.util.Optional;
 
 @Primary
 @RequiredArgsConstructor
-@Service("safeTranslationService")
+@Service
 public class HystrixSafeTranslationService implements TranslationService {
 
-    private static final String TIMEOUT = "5000";
+    static final String TIMEOUT = "5000";
     private static final String TIMEOUT_PROPERTY = "execution.isolation.thread.timeoutInMilliseconds";
 
     private final TranslationService translationService;

@@ -1,22 +1,26 @@
 package com.hdgh0g.bostongenetest.api.v1.responses;
 
-import com.hdgh0g.bostongenetest.domain.*;
+import com.hdgh0g.bostongenetest.domain.Appeal;
+import com.hdgh0g.bostongenetest.domain.AppealAnswer;
+import com.hdgh0g.bostongenetest.domain.Translation;
+import com.hdgh0g.bostongenetest.domain.TranslationStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class FullUserAppealResponse {
+public class FullUserAppealResponse extends ListUserAppealResponse {
 
-    private UUID id;
-    private String text;
-    private AppealStatus status;
     private String answer;
     private TranslationStatus answerTranslationStatus;
+
+    @Override
+    public String getText() {
+        return text;
+    }
 
     public static FullUserAppealResponse fromAppeal(Appeal appeal) {
         FullUserAppealResponse response = new FullUserAppealResponse();

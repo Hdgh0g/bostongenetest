@@ -20,9 +20,10 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/v1/admin/appeals", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = AdminSupportController.PATH, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class AdminSupportController {
 
+    public static final String PATH = "/v1/admin/appeals";
     private final AppealService appealService;
 
     @GetMapping

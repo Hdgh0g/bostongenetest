@@ -1,0 +1,291 @@
+swagger: "2.0"
+info:
+  description: "Документация к сервису принятия и обработки обращений пользователя"
+  title: "BostonGene Test Task"
+basePath: "/v1"
+tags:
+- name: "Appeal"
+  description: "Пользовательское апи по оставлению обращений и их просмотру"
+- name: "Admin"
+  description: "Апи для админов"
+securityDefinitions:
+  Basic Http Auth:
+    type: basic
+security:
+- Basic Http Auth: []
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /appeals:
+    get:
+      summary: Получить все обращения текущего пользователя
+      tags:
+      - Appeal
+      parameters:
+      - $ref: "#/parameters/PageParam"
+      - $ref: "#/parameters/PageSizeParam"
+      responses:
+        200:
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ListUserAppealResponse"
+        401:
+          schema:
+            $ref: '#/definitions/Unauthorized'
+    post:
+      summary: Оставить заявку
+      tags:
+      - Appeal
+      parameters:
+      - $ref: '#/parameters/AppealParam'
+      responses:
+        204:
+          description: Заявка успешно создана
+        400:
+          description: Ошибка формата заявки
+        401:
+          schema:
+            $ref: '#/definitions/Unauthorized'
+  /appeals/{id}:
+    get:
+      summary: Получить полную информацию по своему обращению по id
+      tags:
+      - Appeal
+      parameters:
+      - $ref: "#/parameters/UUIDPathParam"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/FullUserAppealResponse'
+        401:
+          schema:
+            $ref: '#/definitions/Unauthorized'
+        404:
+          schema:
+            $ref: '#/definitions/NotFound'
+  /admin/appeals:
+    get:
+      summary: Получить все заявки в нужном статусе
+      tags:
+      - Admin
+      parameters:
+      - $ref: "#/parameters/PageParam"
+      - $ref: "#/parameters/PageSizeParam"
+      - $ref: "#/parameters/AppealStatus"
+      responses:
+        200:
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ListAdminAppealResponse"
+        401:
+          schema:
+            $ref: '#/definitions/Unauthorized'
+        403:
+          schema:
+            $ref: '#/definitions/Forbidden'
+  /admin/appeals/{id}:
+    get:
+      summary: Получить всю информацию по заявке
+      tags:
+      - Admin
+      parameters:
+      - $ref: "#/parameters/UUIDPathParam"
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/FullAdminAppealResponse'
+        401:
+          schema:
+            $ref: '#/definitions/Unauthorized'
+        403:
+          schema:
+            $ref: '#/definitions/Forbidden'
+        404:
+          schema:
+            $ref: '#/definitions/NotFound'
+  /admin/appeals/answer:
+    post:
+      summary: Ответить на заявку и закрыть её
+      tags:
+      - Admin
+      parameters:
+      - $ref: '#/parameters/AppealAnswerParam'
+      responses:
+        204:
+          description: Ответ успешно создан
+        400:
+          description: Ошибка формата ответа или к этой заявке уже оставлен ответ
+        401:
+          schema:
+            $ref: '#/definitions/Unauthorized'
+        403:
+          schema:
+            $ref: '#/definitions/Forbidden'
+definitions:
+  TranslationStatuses:
+    type: string
+    enum: &TRANSLATION_STATUSES
+    - TRANSLATION_NEEDED
+    - TRANSLATED
+    - NOT_DEFINED_ORIGINAL_LANGUAGE
+    - ERROR_IN_TRANSLATION
+  AppealStatuses:
+    type: string
+    enum: &APPEAL_STATUSES
+    - OPEN
+    - CLOSED
+  BasicListAppealResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: id заявки
+      status:
+        type: string
+        description: Текущий статус заявки
+        enum: *APPEAL_STATUSES
+  ListUserAppealResponse:
+    allOf:
+    - $ref: "#/definitions/BasicListAppealResponse"
+    - type: object
+      properties:
+        text:
+          type: string
+          description: Первые 50 символов текста заявки
+  FullUserAppealResponse:
+    allOf:
+    - $ref: "#/definitions/BasicListAppealResponse"
+    - type: object
+      properties:
+        text:
+          type: string
+          description: Полный текст заявки
+        answer:
+          type: string
+          description: Ответ админа, по возможности переведенный на язык пользователя
+        answerTranslationStatus:
+          type: string
+          description: Статус переведенности ответа (может отсутствовать, если ответа нет)
+          enum: *TRANSLATION_STATUSES
+  PreListAdminAppealResponse:
+    allOf:
+    - $ref: "#/definitions/BasicListAppealResponse"
+    - type: object
+      properties:
+        username:
+          type: string
+          description: Имя пользователя, оставившего заявку
+        translationStatus:
+          type: string
+          description: Состояние "переведенности" заявки на английский
+          enum: *TRANSLATION_STATUSES
+  ListAdminAppealResponse:
+    allOf:
+    - $ref: "#/definitions/PreListAdminAppealResponse"
+    - type: object
+      properties:
+        text:
+          type: string
+          description: Первые 50 символов текста заявки, переведенные по возможности на английский
+  FullAdminAppealResponse:
+    allOf:
+    - $ref: "#/definitions/PreListAdminAppealResponse"
+    - type: object
+      properties:
+        text:
+          type: string
+          description: Весь текст заявки, переведенный по возможности на английский
+        answer:
+          type: string
+          description: Текст ответа админа
+  Unauthorized:
+    type: object
+    properties:
+      message:
+        type: string
+        default: Unauthorized
+        description: Сообщение об ошибке
+      code:
+        type: integer
+        default: 401
+        description: Код ошибки
+  Forbidden:
+    type: object
+    properties:
+      message:
+        type: string
+        default: Forbidden
+        description: Сообщение об ошибке
+      code:
+        type: integer
+        default: 403
+        description: Код ошибки
+  NotFound:
+    type: object
+    properties:
+      message:
+        type: string
+        default: NotFound
+        description: Сообщение об ошибке
+      code:
+        type: integer
+        default: 404
+        description: Код ошибки
+
+parameters:
+  PageParam:
+    in: query
+    name: page
+    type: integer
+    required: false
+    description: Номер страницы (начиная с 0)
+    default: 0
+  PageSizeParam:
+    in: query
+    name: size
+    type: integer
+    required: false
+    description: Размер страницы
+    default: 20
+  AppealStatus:
+    in: query
+    name: status
+    type: string
+    required: false
+    default: OPEN
+    description: Статусы, в которых нужно вернуть заказы
+    enum: *APPEAL_STATUSES
+  UUIDPathParam:
+    in: path
+    name: id
+    type: string
+    format: uuid
+    required: true
+    description: id заявки
+  AppealParam:
+    in: body
+    name: body
+    schema:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Текст заявки
+  AppealAnswerParam:
+    in: body
+    name: body
+    schema:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Текст ответа
+        appealId:
+          type: string
+          format: uuid
+          description: id заявки, к которой надо оставить ответ
