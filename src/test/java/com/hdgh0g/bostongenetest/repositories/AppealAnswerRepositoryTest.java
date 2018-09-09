@@ -32,9 +32,9 @@ public class AppealAnswerRepositoryTest {
 
     @Test
     public void testFindAllWithoutTranslation() {
-        Appeal appeal = testAppeal();
+        Appeal appeal = AppealRepositoryTest.testAppeal();
         AppealAnswer appealAnswer = testAnswer();
-        Translation translation = testTranslation();
+        Translation translation = AppealRepositoryTest.testTranslation();
         appeal.setTranslation(translation);
         appeal.setAnswer(appealAnswer);
         testEntityManager.persist(appeal);
@@ -47,7 +47,7 @@ public class AppealAnswerRepositoryTest {
 
     @Test
     public void testAppealWithoutTranslation() {
-        Appeal appeal = testAppeal();
+        Appeal appeal = AppealRepositoryTest.testAppeal();
         AppealAnswer appealAnswer = testAnswer();
         appeal.setAnswer(appealAnswer);
         testEntityManager.persist(appeal);
@@ -59,9 +59,9 @@ public class AppealAnswerRepositoryTest {
 
     @Test
     public void testAlreadyTranslatedAnswer() {
-        Appeal appeal = testAppeal();
+        Appeal appeal = AppealRepositoryTest.testAppeal();
         AppealAnswer appealAnswer = testAnswer();
-        Translation translation = testTranslation();
+        Translation translation = AppealRepositoryTest.testTranslation();
         appeal.setTranslation(translation);
         appeal.setAnswer(appealAnswer);
         appealAnswer.setTranslation(translation);
@@ -77,22 +77,6 @@ public class AppealAnswerRepositoryTest {
         appealAnswer.setText(RandomStringUtils.randomAlphabetic(500));
         appealAnswer.setUsername(RandomStringUtils.randomAlphabetic(30));
         return appealAnswer;
-    }
-
-    private Translation testTranslation() {
-        return new Translation(
-                RandomStringUtils.randomAlphabetic(2),
-                RandomStringUtils.randomAlphabetic(2),
-                RandomStringUtils.randomAlphabetic(500)
-        );
-    }
-
-    private Appeal testAppeal() {
-        Appeal appeal = new Appeal();
-        appeal.setText(RandomStringUtils.randomAlphabetic(500));
-        appeal.setUsername(RandomStringUtils.randomAlphabetic(30));
-        appeal.setStatus(AppealStatus.OPEN);
-        return appeal;
     }
 
 }
