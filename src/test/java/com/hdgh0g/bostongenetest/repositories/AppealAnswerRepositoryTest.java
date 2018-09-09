@@ -71,7 +71,7 @@ public class AppealAnswerRepositoryTest {
         MatcherAssert.assertThat(answersToTranslate, Matchers.is(Matchers.empty()));
     }
 
-    private AppealAnswer testAnswer() {
+    public static AppealAnswer testAnswer() {
         AppealAnswer appealAnswer = new AppealAnswer();
         appealAnswer.setText(RandomStringUtils.randomAlphabetic(500));
         appealAnswer.setUsername(RandomStringUtils.randomAlphabetic(30));

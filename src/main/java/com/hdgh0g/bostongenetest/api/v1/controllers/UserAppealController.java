@@ -20,10 +20,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/v1/appeals", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = UserAppealController.PATH, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @RequiredArgsConstructor
 public class UserAppealController {
 
+    public static final String PATH = "/v1/appeals";
     private final AppealService appealService;
 
     @PostMapping
