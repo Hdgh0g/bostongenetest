@@ -7,6 +7,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+  datasource:
+    username: bostongene
+    password: bostongene
+    url: jdbc:postgresql://localhost:5432/bostongene
 
 translation:
   yandex:
