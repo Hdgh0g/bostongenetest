@@ -1,0 +1,16 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    links:
+      - postgres
+  postgres:
+    image: "postgres:10-alpine"
+    environment:
+      POSTGRES_USER: bostongene
+      POSTGRES_PASSWORD: bostongene
+      POSTGRES_DB: bostongene
+    expose:
+      - "5432"

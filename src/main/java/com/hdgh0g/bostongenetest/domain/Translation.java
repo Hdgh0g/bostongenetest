@@ -1,6 +1,7 @@
 package com.hdgh0g.bostongenetest.domain;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "translations")
 @Data
+@NoArgsConstructor
 public class Translation {
 
     @Id
