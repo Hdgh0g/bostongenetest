@@ -34,6 +34,7 @@
 
 Проект запускался на:
 - Windows 10 (1803), java 8 (1.8.0_131), docker 18.06.1-ce, docker-compose 1.22.0
+- Ubuntu 18.04.1, java 8 (1.8.0_161), docker 17.12.1-ce, docker-compose 1.17.1
 
 ## Документация
 
