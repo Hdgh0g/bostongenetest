@@ -24,6 +24,17 @@
 
 ## Запуск
 
+1. Поменять в файле **src/main/resources/application.yml** **translation.yandex.key** на реальный
+2. Запустить сборку проекта `./gradlew build` в корне проекта
+3. Запустить docker-compose `docker-compose up`
+
+Тестовые пользователи:
+- admin:admin - админ
+- user:user - обычный пользователь
+
+Проект запускался на:
+- Windows 10 (1803), java 8 (1.8.0_131), docker 18.06.1-ce, docker-compose 1.22.0
+
 ## Документация
 
 Документация по всем запросам api доступна по ссылке **/static/docs/v1.html**
